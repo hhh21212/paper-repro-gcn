@@ -43,6 +43,12 @@ $env:PYTHONIOENCODING='utf-8'; $env:PYTHONUTF8='1'
 D:\Dev\Projects\venv\Scripts\python.exe baseline/experiments/train_cora.py --runs 20
 ```
 
+## 数据获取
+
+数据集不入库（`data/` 已在 `.gitignore`，Cora 的 `cora.content` 有 7.8 MB）。
+从 https://linqs.soe.ucsc.edu/data 下载 `cora.content` + `cora.cites`，放到 `data/cora/` 即可。
+Citeseer / PubMed 同理；或后续用 PyG 的 `Planetoid` 自动下载。
+
 ## 与论文的已知差异（baseline 记录，待我亲自复验）
 
 1. 官方 `tkipf/pygcn` 用行归一化 $\tilde D^{-1}\tilde A$，论文公式 (4) 是对称归一化 $\tilde D^{-1/2}\tilde A\tilde D^{-1/2}$。
