@@ -2,51 +2,49 @@
 
 复现论文：*Semi-Supervised Classification with Graph Convolutional Networks* (Kipf & Welling, ICLR 2017)
 
-## 目标
+> **仓库现在的定位**：这是我（陈亦州）**从零学习并亲自复现**的记录。
+> 2026-11-02 之前仓库里的实现由 AI 生成、我本人没有参与，已整体移入 `baseline/`，只作对照参考，**不算我的复现成果**。
+> 学习计划与考核方式见 `D:\Dev\Projects\learning\PLAN.md`。
 
-- 在 Cora / Citeseer / PubMed 上复现 GCN 半监督节点分类结果。
-- 手写 GCN 层核心：从谱域卷积 → 一阶近似 → 消息传递形式。
-- 做消融实验：层数、dropout、L2 正则化、隐藏层维度。
-- 与官方实现对比，记录差异原因。
-
-## 目录规划
+## 目录
 
 ```
 paper-repro-gcn/
-├── README.md
-├── src/                 # 手写 GCN 实现
-├── official/            # 官方代码（fork / clone）
-├── data/                # 数据集（Cora/Citeseer/PubMed）
-├── experiments/         # 训练脚本与实验配置
-├── results/             # 实验结果与图表
-├── notes/               # 论文阅读笔记
-└── daily/               # 每日工作日志
+├── baseline/        # 早期 AI 生成的参考实现（只读，不作为本人成果）
+│   ├── src/         #   手写 GCN 层 + 对称归一化（AI 写）
+│   ├── experiments/ #   训练脚本（AI 写）
+│   └── results/     #   AI 跑出的 Cora 结果
+├── src/             # 我本人写的实现（从零重写中）
+├── experiments/     # 我本人的训练与实验脚本
+├── results/         # 我本人的实验结果
+├── notes/           # 论文精读（四关推导，我自己写）
+├── daily/           # 每日工作日志
+└── data/            # 数据集（gitignore）
 ```
 
-## 复现指标
+## 复现进度
 
-| 数据集 | 论文报告 | 复现目标 | 状态 |
-|--------|----------|----------|------|
-| Cora | 81.5% | 80.5%–82.5% | ✅ **81.48% ± 0.72%** |
-| Citeseer | 70.3% | 69.0%–71.5% | ⏳ 待做 |
-| PubMed | 79.0% | 78.0%–80.0% | ⏳ 待做 |
+| 数据集 | 论文报告 | baseline（AI 生成，仅参考） | 本人复现 |
+|--------|----------|---------------------------|----------|
+| Cora | 81.5% ± 0.7% | 81.48% ± 0.72%（20 次） | ⏳ 未开始 |
+| Citeseer | 70.3% | — | ⏳ |
+| PubMed | 79.0% | — | ⏳ |
 
-Cora 复现详情见 [`results/cora-baseline.md`](results/cora-baseline.md)。
+## 本人当前阶段
 
-## 代码结构
+2026-11-02 起：W0 摸底 → A 数值地基 → B 机器学习最小闭环 → … → E 论文四关 → F 自己重写。
+进度看板：`D:\Dev\Projects\learning\PROGRESS.md`
 
+## 常用命令
+
+```powershell
+# 跑 baseline 参考实现（只用于对照，不是我的成果）
+$env:PYTHONIOENCODING='utf-8'; $env:PYTHONUTF8='1'
+D:\Dev\Projects\venv\Scripts\python.exe baseline/experiments/train_cora.py --runs 20
 ```
-src/
-├── data.py          # 数据加载 + 对称归一化（论文公式 4）
-└── gcn.py           # 手写 GraphConvolutionLayer + 两层 GCN
-experiments/
-└── train_cora.py    # 训练脚本（支持 --runs N 求均值±标准差）
-```
 
-## 下一步
+## 与论文的已知差异（baseline 记录，待我亲自复验）
 
-1. [x] 克隆官方代码到 `official/`（TF 版）与 `official-pytorch/`（PyTorch 版）。
-2. [x] 跑通 Cora 基准（手写现代 PyTorch 版，81.48%）。
-3. [ ] 精读论文并整理公式到 `notes/`。
-4. [ ] 复现 Citeseer、PubMed。
-5. [ ] 消融实验（层数、dropout、隐藏维度、L2）。
+1. 官方 `tkipf/pygcn` 用行归一化 $\tilde D^{-1}\tilde A$，论文公式 (4) 是对称归一化 $\tilde D^{-1/2}\tilde A\tilde D^{-1/2}$。
+2. 论文第 5 节明确写了对输入特征做 (row-)normalize，baseline 没做——这处待我自己验证。
+3. 官方 TF/PyTorch 代码过老，跑不动的部分需要按论文数学重写。
