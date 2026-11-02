@@ -25,14 +25,28 @@ paper-repro-gcn/
 
 ## 复现指标
 
-| 数据集 | 论文报告 | 复现目标 |
-|--------|----------|----------|
-| Cora | 81.5% | 80.5%–82.5% |
-| Citeseer | 70.3% | 69.0%–71.5% |
-| PubMed | 79.0% | 78.0%–80.0% |
+| 数据集 | 论文报告 | 复现目标 | 状态 |
+|--------|----------|----------|------|
+| Cora | 81.5% | 80.5%–82.5% | ✅ **81.48% ± 0.72%** |
+| Citeseer | 70.3% | 69.0%–71.5% | ⏳ 待做 |
+| PubMed | 79.0% | 78.0%–80.0% | ⏳ 待做 |
+
+Cora 复现详情见 [`results/cora-baseline.md`](results/cora-baseline.md)。
+
+## 代码结构
+
+```
+src/
+├── data.py          # 数据加载 + 对称归一化（论文公式 4）
+└── gcn.py           # 手写 GraphConvolutionLayer + 两层 GCN
+experiments/
+└── train_cora.py    # 训练脚本（支持 --runs N 求均值±标准差）
+```
 
 ## 下一步
 
-1. 克隆官方代码到 `official/`。
-2. 跑通 Cora 官方基准。
-3. 精读论文并整理公式到 `notes/`。
+1. [x] 克隆官方代码到 `official/`（TF 版）与 `official-pytorch/`（PyTorch 版）。
+2. [x] 跑通 Cora 基准（手写现代 PyTorch 版，81.48%）。
+3. [ ] 精读论文并整理公式到 `notes/`。
+4. [ ] 复现 Citeseer、PubMed。
+5. [ ] 消融实验（层数、dropout、隐藏维度、L2）。

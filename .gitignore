@@ -40,6 +40,10 @@ data/processed/
 *.npz
 *.pkl
 
+# 上游官方代码（本地参考，不入库；本仓库 src/ 才是自己的实现）
+official/
+official-pytorch/
+
 # IDE
 .vscode/
 .idea/
