@@ -57,3 +57,6 @@ Thumbs.db
 # Logs
 *.log
 logs/
+
+# Local reading copies (paper PDFs, big binaries)
+notes/*.pdf
